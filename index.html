@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas Centro Médico Ñuñoa</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Estadísticas Centro Médico Ñuñoa</h1>
+
+    <!-- Primera Atención y Última Atención -->
+    <p id="atenciones-radiologia"></p>
+    <p id="atenciones-traumatologia"></p>
+    <p id="atenciones-dental"></p>
+
+    <!-- Tablas -->
+    <h2>Radiología</h2>
+    <table id="tabla-radiologia">
+        <tr>
+            <th>Hora</th>
+            <th>Especialista</th>
+            <th>Paciente</th>
+            <th>RUT</th>
+            <th>Previsión</th>
+        </tr>
+    </table>
+
+    <h2>Traumatología</h2>
+    <table id="tabla-traumatologia">
+        <tr>
+            <th>Hora</th>
+            <th>Especialista</th>
+            <th>Paciente</th>
+            <th>RUT</th>
+            <th>Previsión</th>
+        </tr>
+    </table>
+
+    <h2>Dental</h2>
+    <table id="tabla-dental">
+        <tr>
+            <th>Hora</th>
+            <th>Especialista</th>
+            <th>Paciente</th>
+            <th>RUT</th>
+            <th>Previsión</th>
+        </tr>
+    </table>
+
+    <script>
+        // Datos Radiología
+        const radiologia = [
+            { hora: '11:00', especialista: 'IGNACIO SCHULZ', paciente: 'FRANCISCA ROJAS', rut: '9878782-1', prevision: 'FONASA' },
+            { hora: '11:30', especialista: 'FEDERICO SUBERCASEAUX', paciente: 'PAMELA ESTRADA', rut: '15345241-3', prevision: 'ISAPRE' },
+            { hora: '15:00', especialista: 'FERNANDO WURTHZ', paciente: 'ARMANDO LUNA', rut: '16445345-9', prevision: 'ISAPRE' },
+            { hora: '15:30', especialista: 'ANA MARIA GODOY', paciente: 'MANUEL GODOY', rut: '17666419-0', prevision: 'FONASA' },
+            { hora: '16:00', especialista: 'PATRICIA SUAZO', paciente: 'RAMON ULLOA', rut: '14989389-K', prevision: 'FONASA' }
+        ];
+
+        // Datos Traumatología
+        const traumatologia = [
+            { hora: '8:00', especialista: 'MARIA PAZ ALTUZARRA', paciente: 'PAULA SANCHEZ', rut: '15554774-5', prevision: 'FONASA' },
+            { hora: '10:00', especialista: 'RAUL ARAYA', paciente: 'ANGÉLICA NAVAS', rut: '15444147-9', prevision: 'ISAPRE' },
+            { hora: '10:30', especialista: 'MARIA ARRIAGADA', paciente: 'ANA KLAPP', rut: '17879423-9', prevision: 'ISAPRE' },
+            { hora: '11:00', especialista: 'ALEJANDRO BADILLA', paciente: 'FELIPE MARDONES', rut: '1547423-6', prevision: 'ISAPRE' },
+            { hora: '11:30', especialista: 'CECILIA BUDNIK', paciente: 'DIEGO MARRE', rut: '16554741-K', prevision: 'FONASA' },
+            { hora: '12:00', especialista: 'ARTURO CAVAGNARO', paciente: 'CECILIA MENDEZ', rut: '9747535-8', prevision: 'ISAPRE' },
+            { hora: '12:30', especialista: 'ANDRES KANACRI', paciente: 'MARCIAL SUAZO', rut: '11254785-5', prevision: 'ISAPRE' }
+        ];
+
+        // Datos Dental
+        const dental = [
+            { hora: '8:30', especialista: 'ANDREA ZUÑIGA', paciente: 'MARCELA RETAMAL', rut: '11123425-6', prevision: 'ISAPRE' },
+            { hora: '11:00', especialista: 'MARIA PIA ZAÑARTU', paciente: 'ANGEL MUÑOZ', rut: '9878789-2', prevision: 'ISAPRE' },
+            { hora: '11:30', especialista: 'SCARLETT WITTING', paciente: 'MARIO KAST', rut: '7998789-5', prevision: 'FONASA' },
+            { hora: '13:00', especialista: 'FRANCISCO VON TEUBER', paciente: 'KARIN FERNANDEZ', rut: '18887662-K', prevision: 'FONASA' },
+            { hora: '13:30', especialista: 'EDUARDO VIÑUELA', paciente: 'HUGO SANCHEZ', rut: '17665461-4', prevision: 'FONASA' },
+            { hora: '14:00', especialista: 'RAQUEL VILLASECA', paciente: 'ANA SEPULVEDA', rut: '14441281-0', prevision: 'ISAPRE' }
+        ];
+
+        // Función que, en base a un listado de pacientes, obtiene el que se atendió primero y último e imprime sus datos.
+        function mostrarPrimeraYUltimaAtencion(listado, elementoId, nombreListado) {
+            const primeraAtencion = listado[0];
+            const ultimaAtencion = listado[listado.length - 1];
+            document.getElementById(elementoId).innerHTML = `${nombreListado}: Primera atención: ${primeraAtencion.paciente} - ${primeraAtencion.prevision} | Última atención: ${ultimaAtencion.paciente} - ${ultimaAtencion.prevision}`;
+        }
+
+        //Función que agrega filas con, la información de cada paciente, a su respectiva tabla.
+        function agregarFilasTabla(listado, tablaId) {
+            const tabla = document.getElementById(tablaId);
+            listado.forEach(atencion => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `<td>${atencion.hora}</td><td>${atencion.especialista}</td><td>${atencion.paciente}</td><td>${atencion.rut}</td><td>${atencion.prevision}</td>`;
+                tabla.appendChild(fila);
+            });
+        }
+
+        // Mostrar la primera y última atención de cada listado
+        mostrarPrimeraYUltimaAtencion(radiologia, 'atenciones-radiologia', 'Radiología');
+        mostrarPrimeraYUltimaAtencion(traumatologia, 'atenciones-traumatologia', 'Traumatología');
+        mostrarPrimeraYUltimaAtencion(dental, 'atenciones-dental', 'Dental');
+
+        // Agregar las filas a cada tabla
+        agregarFilasTabla(radiologia, 'tabla-radiologia');
+        agregarFilasTabla(traumatologia, 'tabla-traumatologia');
+        agregarFilasTabla(dental, 'tabla-dental');
+
+    </script>
+</body>
+
+</html>
